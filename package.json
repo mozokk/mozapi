@@ -1,0 +1,25 @@
+{
+	"name": "robapi",
+	"version": "0.0.1",
+	"description": "Node api starting point",
+	"main": "app.js",
+	"scripts": {
+		"build": "./node_modules/.bin/tsc -p .",
+		"start": "node build/app.js",
+		"test": "mocha build/tests/**/*.js"
+	},
+	"keywords": [
+		"npm",
+		"node",
+		"express",
+		"wrapper",
+		"shared",
+		"robapi"
+	],
+	"author": "Robert Markovski <robertmarkovski@yahoo.com>",
+	"license": "ISC",
+	"devDependencies": {
+		"tslint-config-airbnb": "^5.9.2",
+		"typescript": "^3.0.1"
+	}
+}
