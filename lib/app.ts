@@ -13,7 +13,7 @@ import {
 	Router,
     config,
     winston
-} from '.'
+} from './exports'
 
 export class App implements IApp {
     app: Express = express()

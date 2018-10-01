@@ -1,12 +1,20 @@
 {
-	"name": "robapi",
+	"author": {
+		"name": "Robert Markovski",
+		"email": "robertmarkovski@yahoo.com"
+	},
+	"name": "mozapi",
 	"version": "0.0.1",
-	"description": "Node api starting point",
-	"main": "app.js",
+	"description": "Node API creation simplified",
+	"main": "lib/index.js",
 	"scripts": {
 		"build": "./node_modules/.bin/tsc -p .",
-		"start": "node build/app.js",
-		"test": "mocha build/tests/**/*.js"
+		"start": "npm run build && node build/lib/index.js",
+		"start:server": "npm run build && forever start build/lib/index.js",
+		"restart:server": "npm run build && forever restart build/lib/index.js",
+		"stop:server": "forever stop build/lib/index.js",
+		"test": "mocha build/tests/**/*.js",
+		"lint": "eslint ."
 	},
 	"keywords": [
 		"npm",
@@ -14,9 +22,8 @@
 		"express",
 		"wrapper",
 		"shared",
-		"robapi"
+		"mozapi"
 	],
-	"author": "Robert Markovski <robertmarkovski@yahoo.com>",
 	"license": "ISC",
 	"devDependencies": {
 		"@types/node": "^10.5.7",
@@ -30,5 +37,6 @@
 		"express": "^4.16.3",
 		"express-winston": "^3.0.0",
 		"promise-mysql": "^3.3.1"
-	}
+	},
+	"deprecated": false
 }

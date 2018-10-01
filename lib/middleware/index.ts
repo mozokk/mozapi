@@ -7,7 +7,7 @@ import {
 	IApp,
 	getExpressLogger,
 	getExpressErrorLogger
-} from '..'
+} from '../exports'
 
 export class Middleware {
 	public static init(app: IApp) {

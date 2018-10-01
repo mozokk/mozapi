@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import { IApp } from '..'
+import { IApp } from '../exports'
 
 export class Router {
 	static init(app: IApp) {

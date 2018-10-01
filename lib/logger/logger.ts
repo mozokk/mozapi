@@ -1,6 +1,6 @@
 import * as eWinston from 'express-winston'
 
-import { config } from '..'
+import { config } from '../exports'
 
 export const winston = require('winston')
 

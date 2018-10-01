@@ -1,4 +1,4 @@
-import { IConfig } from '.';
+import { IConfig } from './exports';
 
 export const config: IConfig = {
 	name: process.env.APP_NAME || 'app',
