@@ -4,7 +4,7 @@ import {
 } from 'http'
 import { Connection } from 'promise-mysql'
 
-export interface Response extends ServerResponse {
+export interface IResponse extends ServerResponse {
     render?: any
     status?: any
     hal?: any
@@ -13,7 +13,7 @@ export interface Response extends ServerResponse {
     send?: any
 }
 
-export interface Request extends IncomingMessage {
+export interface IRequest extends IncomingMessage {
     baseUrl?: string
     params?: any
     body?: any
@@ -21,13 +21,13 @@ export interface Request extends IncomingMessage {
     file?: any
 }
 
-export interface ResponseOptions {
+export interface IResponseOptions {
     statusCode?: number
     contentType?: string
     customData?: any
 }
 
-export interface AuthHandler {
+export interface IAuthHandler {
     data?: any
     options?: any
     handler(res: Response, connection?: Connection): Promise<any>

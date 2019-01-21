@@ -1,41 +1,42 @@
-import * as express from 'express'
+import express from 'express'
 import { Server } from 'http'
 
 import {
-	Express,
-	Router as ExpressRouter
+	Express
 } from 'express'
 
 import {
     IApp,
-    IAppOptions,
+	IAppOptions,
 	Middleware,
+	Storage,
 	Router,
     config,
-    winston
+	logger,
 } from './exports'
 
 export class App implements IApp {
     app: Express = express()
 	server: Server = new Server()
 	name: string = config.name
-    router: ExpressRouter
+	storage: Storage
     options: IAppOptions
 
-    constructor(router: Router, options?: IAppOptions) {
-        this.router = router
-        this.options = options || {}
+    constructor(options: IAppOptions) {
+		this.storage = { database: undefined }
+        this.options = options
     }
 
-    public static init(router: Router, options?: IAppOptions): App {
-		winston.info(`Crafting ${this.name}...`)
+    public static init(options: IAppOptions): App {
+		logger.log(`Crafting ${this.name}...`)
 
-		const app: App = new App(router, options)
+		const app: App = new App(options)
 
-		Middleware.init(app)
-		Router.init(app)
+		Storage.init(app, options.storage)
+		Middleware.init(app, app.storage)
+		Router.init(app, options.router)
 
-		winston.info(`Enjoy!`)
+		logger.log(`Enjoy!`)
 
         return app
 	}
@@ -44,7 +45,7 @@ export class App implements IApp {
         let handler = new Object()
 
         if (config.runtype === 'express') {
-            this.server = this.app.listen(config.port, this._onListening)
+            this.server = this.app.listen(config.port, this._onListening.bind(this))
         } else if (config.runtype === 'serverless') {
             handler = require('serverless-http')(this.app)
         }
@@ -53,6 +54,6 @@ export class App implements IApp {
 	}
 
 	private _onListening() {
-		winston.info('info', `Listening on :${config.port}`)
+		logger.log(`Listening on :${config.port}`)
 	}
 }

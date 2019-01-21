@@ -1,0 +1,29 @@
+import csrf from 'csurf'
+
+import { RequestHandler } from 'express'
+import { IApp, IRouterOptions, IRouteOptions } from '../exports'
+import { Response } from '../utils'
+
+export class Router {
+	static init(app: IApp, options: IRouterOptions) {
+		const appMiddlewares: Array<RequestHandler> = app.options.middlewares || new Array()
+		const csrfProtection = csrf({ cookie: true })
+
+		app.app.get(`/${options.base}/csrf`, csrfProtection, (req, res) => {
+			const response = Response.init(res)
+			return response.success(req.csrfToken())
+		})
+
+		for(var key in options.routes) {
+			const route: IRouteOptions = options.routes[key]
+
+			if (route) {
+				const middlewares = appMiddlewares.concat(route.middlewares || new Array())
+
+				middlewares.push(csrfProtection)
+
+				app.app.use(`/${options.base}/${route.route}`, middlewares, route.router)
+			}
+		}
+	}
+}

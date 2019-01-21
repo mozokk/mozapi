@@ -5,9 +5,11 @@ export interface IConfig {
 	runtype: string
     aws: IAWSConfig
     cognito: ICognitoConfig
-    cognitoPool: ICognitoUserPoolConfig
+	cognitoPool: ICognitoUserPoolConfig
+	mongo: IMongoConfig
 	mysql: IMySQLConfig
 	logger: ILoggerConfig
+	mail: IMailConfig
 }
 
 export interface IPaymentConfig {
@@ -33,6 +35,10 @@ export interface ICognitoUserPoolConfig {
     ClientId: string
 }
 
+export interface IMongoConfig {
+	connection: string | undefined
+}
+
 export interface IMySQLConfig {
     host: string | undefined
     user: string | undefined
@@ -56,4 +62,11 @@ export interface ILoggerConfig {
 	humanReadableUnhandledException: boolean | undefined,
 	timestamp: boolean | undefined
 	level: number | undefined
+}
+
+export interface IMailConfig {
+	host: string
+	port: number
+	username: string
+	password: string
 }

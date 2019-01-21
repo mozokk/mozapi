@@ -1,9 +1,11 @@
 import { IConfig } from './exports';
 
+require('dotenv').config()
+
 export const config: IConfig = {
 	name: process.env.APP_NAME || 'app',
     port: process.env.PORT || 3000,
-	stage: process.env.STAGE || 'local',
+	stage: process.env.STAGE || 'development',
 	runtype: process.env.RUNTYPE || 'express',
     aws: {
         region: process.env.AWS_REGION || process.env.AWS_LOCAL_REGION,
@@ -22,7 +24,10 @@ export const config: IConfig = {
     cognitoPool: {
         UserPoolId: process.env.AWS_USER_POOL_ID || '',
         ClientId: process.env.AWS_COGNITO_CLIENTID || ''
-    },
+	},
+	mongo: {
+		connection: process.env.MONGO_CONNECTION || ''
+	},
     mysql: {
         host: process.env.DB_HOST,
         user: process.env.DB_USER,
@@ -37,5 +42,11 @@ export const config: IConfig = {
 		humanReadableUnhandledException: process.env.LOGGER_READABLE_EXCEPTION == 'true' || false,
 		timestamp: process.env.LOGGER_TIMESTAMP == 'true' || true,
 		level: parseInt(process.env.LOGGER_LEVEL || '1')
+	},
+	mail: {
+		host: 'smtp.gmail.com',
+		port: 587, // Change to 465 for https
+		username: process.env.MAIL_USERNAME || '',
+		password: process.env.MAIL_PASSWORD || ''
 	}
 }
