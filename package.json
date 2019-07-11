@@ -1,0 +1,33 @@
+{
+  "name": "mozapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://mozok-de@bitbucket.org/mozokde/mozapi.git"
+  },
+  "author": "Robert Markovski",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/mozokde/mozapi#readme",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "csurf": "^1.10.0",
+    "express-session": "^1.16.2",
+    "express-winston": "^3.2.1",
+    "helmet": "^3.18.0",
+    "mongoose": "^5.6.4",
+    "morgan": "^1.9.1",
+    "multer": "^1.4.1",
+    "mysql": "^2.17.1",
+    "nodemailer": "^6.2.1",
+    "passport": "^0.4.0",
+    "promise-mysql": "^4.0.4",
+    "winston": "^3.2.1"
+  }
+}
