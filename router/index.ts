@@ -9,7 +9,7 @@ export class Router {
 		const appMiddlewares: Array<RequestHandler> = app.options.middlewares || new Array()
 		const csrfProtection = csrf({ cookie: true })
 
-		app.app.get(`/${options.base}/csrf`, csrfProtection, (req, res) => {
+		app.app.get(`/${options.base}/csrf`, csrfProtection, (req: any, res) => {
 			const response = Response.init(res)
 			return response.success(req.csrfToken())
 		})

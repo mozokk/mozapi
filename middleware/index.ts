@@ -36,8 +36,6 @@ export class Middleware {
 	}
 
 	public static getOrigin(req, res, next): RequestHandler {
-		console.log (req.headers)
-
 		res.setHeader('Access-Control-Allow-Origin', '*')
 		res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Token, X-Requested-With, x-csrf-token, x-access-token')
 		res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, PUT, POST, DELETE')
@@ -48,7 +46,8 @@ export class Middleware {
         res.setHeader('X-WebKit-CSP', policy)
 
 		res.setHeader('X-Frame-Options', 'sameorigin')
-		next()
+
+		return next()
 	}
 
 	public static getCore(_storage: Storage): Array<RequestHandler> {

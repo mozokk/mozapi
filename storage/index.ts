@@ -43,7 +43,7 @@ class Mongo extends Database {
 	async _connect() {
 		const mongoose = (await import('mongoose')).default
 
-		this.connection = mongoose.connect(config.mongo.connection)
+		this.connection = mongoose.connect(config.mongo.connection, { useNewUrlParser: true })
 	}
 }
 
