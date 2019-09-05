@@ -29,6 +29,8 @@
     "nodemailer": "^6.2.1",
     "passport": "^0.4.0",
     "promise-mysql": "^4.0.4",
+    "swagger-jsdoc": "^3.3.0",
+    "swagger-ui-express": "^4.0.7",
     "winston": "^3.2.1"
   }
 }

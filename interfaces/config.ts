@@ -1,5 +1,6 @@
 export interface IConfig {
 	name: string
+	version: string
     port: string | number
 	stage: string
 	runtype: string
@@ -10,6 +11,7 @@ export interface IConfig {
 	mysql: IMySQLConfig
 	logger: ILoggerConfig
 	mail: IMailConfig
+	isCSRFProtected: boolean
 }
 
 export interface IPaymentConfig {

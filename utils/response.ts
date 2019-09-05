@@ -21,4 +21,11 @@ export class Response {
 
 		this.res.status(statusCode).send(message)
 	}
+
+	failureWithJSON(data, statusCode) {
+		data = data || {}
+		statusCode = statusCode || 500
+
+		this.res.status(statusCode).json(data);
+	}
 }

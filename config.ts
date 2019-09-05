@@ -4,6 +4,7 @@ require('dotenv').config()
 
 export const config: IConfig = {
 	name: process.env.APP_NAME || 'app',
+	version: process.env.VERSION || '0.0.1',
     port: process.env.PORT || 3000,
 	stage: process.env.STAGE || 'development',
 	runtype: process.env.RUNTYPE || 'express',
@@ -48,5 +49,6 @@ export const config: IConfig = {
 		port: 587, // Change to 465 for https
 		username: process.env.MAIL_USERNAME || '',
 		password: process.env.MAIL_PASSWORD || ''
-	}
+	},
+	isCSRFProtected: process.env.IS_CSRF_PROTECTED == 'true',
 }

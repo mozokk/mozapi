@@ -5,3 +5,13 @@ export class UnauthorizedError extends Error {
         super(message)
     }
 }
+
+export class ValidationError extends Error {
+	errors
+
+	constructor(errors) {
+		super(errors.toString());
+
+		this.errors = errors;
+	}
+}
