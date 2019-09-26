@@ -13,6 +13,7 @@ export class Controller {
 
 			return response.success(result);
 		} catch (error) {
+			console.log(error.message)
 			if (error instanceof UnauthorizedError) {
 				return response.failure(error.message, 401);
 			}

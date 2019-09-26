@@ -3,6 +3,9 @@ import {
 	config,
 	logger
 } from '..'
+import bcrypt from 'bcryptjs';
+import fs from 'fs';
+import path from 'path';
 
 export const sendMail = async (to: string, subject: string, html: string) => {
 	const transporter = await getMailTransporter()
@@ -54,8 +57,77 @@ export let createFilename: Function = (type: string): string => {
 	const extensions = {
 		'image/png': 'png',
 		'image/jpeg': 'jpg',
-		'image/gif': 'gif'
+		'image/gif': 'gif',
+		'application/octet-stream': 'db3'
 	}
 
-    return `${getRandomString(33)}-${Date.now()}.${extensions[type]}`
+    return `${getRandomString(1)}-${Date.now()}.${extensions[type]}`
+}
+
+export const comparePassword = (password, hash) =>
+  new Promise((resolve, reject) => {
+    bcrypt.compare(password, hash, (err, isMatch) => {
+      if (err) {
+        return reject(err);
+      }
+      return resolve(isMatch);
+    });
+  });
+
+  export const getAll = async (db, sql) => await new Promise((resolve, reject) => {
+	db.all(sql, (err, rows) => {
+		if (err) {
+			return reject(err)
+		}
+		return resolve(rows)
+	})
+})
+
+export const runSqlOnDb = (db, sql, params) =>
+	new Promise((resolve, reject) => {
+		db.run(sql, params, function (err, data) {
+			if (err) {
+				return reject(err)
+			}
+			return resolve(data)
+		})
+	})
+
+export const fileExist = (filename) => {
+	if(!fs.existsSync(path.join(__dirname,'..', '..', '..', 'storage', `${filename}`))) {
+		return false
+	}
+	return true
+}
+
+export const getFromDb = (db, sql, params) =>
+	new Promise((resolve, reject) => {
+		db.get(sql, params, (err, row) => {
+			if (err) {
+				return reject(err)
+			}
+			return resolve(row)
+		})
+	})
+
+
+  
+export const hashPassword = password =>
+  new Promise((resolve, reject) => {
+    bcrypt.genSalt(12, (err, salt) => {
+      if (err) {
+        return reject(err);
+      }
+      return bcrypt.hash(password, salt, (error, hash) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(hash);
+      });
+    });
+  });
+
+export const capitalize = (s) => {
+	if (typeof s !== 'string') return ''
+	return s.charAt(0).toUpperCase() + s.slice(1)
 }
