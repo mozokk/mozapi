@@ -44,7 +44,7 @@ class Mongo extends Database {
 		const mongoose = (await import('mongoose')).default
 
 		mongoose.set('useCreateIndex', true);
-		console.log(config.mongo.connection)
+
 		this.connection = await mongoose.connect(config.mongo.connection || '', { useNewUrlParser: true })
 	}
 }
