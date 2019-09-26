@@ -45,7 +45,7 @@ class Mongo extends Database {
 
 		mongoose.set('useCreateIndex', true);
 
-		this.connection = mongoose.connect(config.mongo.connection, { useNewUrlParser: true })
+		this.connection = await mongoose.connect(config.mongo.connection || '', { useNewUrlParser: true })
 	}
 }
 
