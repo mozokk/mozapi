@@ -10,9 +10,11 @@ export class Response {
 		return new Response(res)
 	}
 
-	public success(data?: any) {
+	public success(data?: any, statusCode?: number) {
 		data = data || {}
-		this.res.status(200).json(data)
+		statusCode = statusCode || 200
+
+		this.res.status(statusCode).json(data)
 	}
 
 	public failure(message?: string, statusCode?: number) {
