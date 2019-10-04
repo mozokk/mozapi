@@ -129,7 +129,7 @@ export const getFromDb = (db, sql, params) =>
 	})
 
 
-  
+
 export const hashPassword = password =>
   new Promise((resolve, reject) => {
     bcrypt.genSalt(12, (err, salt) => {
@@ -149,3 +149,14 @@ export const capitalize = (s) => {
 	if (typeof s !== 'string') return ''
 	return s.charAt(0).toUpperCase() + s.slice(1)
 }
+
+export const copyFile = (source, destination) =>
+	new Promise((resolve, reject) => {
+		fs.copyFile(source, destination, (err) => {
+			if (err) {
+				return reject(err)
+			}
+
+			return resolve()
+		});
+	})
