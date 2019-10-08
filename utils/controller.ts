@@ -3,6 +3,7 @@ import {
 	UnauthorizedError,
 	ValidationError
 } from '../interfaces';
+import httpCodes from '../constants/http_codes';
 
 export class Controller {
 	protected async invoke(res, action) {
@@ -15,11 +16,11 @@ export class Controller {
 		} catch (error) {
 			console.log(error.message)
 			if (error instanceof UnauthorizedError) {
-				return response.failure(error.message, 401);
+				return response.failure(error.message, httpCodes.HTTP_UNAUTHORIZED);
 			}
 
 			if (error instanceof ValidationError) {
-				return response.failureWithJSON(error.errors, 422);
+				return response.failureWithJSON(error.errors, httpCodes.HTTP_UNPROCESSSSABLE_ENTITY);
 			}
 
 			return response.failure();

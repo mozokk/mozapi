@@ -1,11 +1,13 @@
 import nodemailer from 'nodemailer'
+import bcrypt from 'bcryptjs'
+import fs from 'fs'
+import path from 'path'
+
 import {
 	config,
 	logger
 } from '..'
-import bcrypt from 'bcryptjs';
-import fs from 'fs';
-import path from 'path';
+import { EARTH_RADIUS } from '../constants/location'
 
 export const sendMail = async (to: string, subject: string, html: string) => {
 	const transporter = await getMailTransporter()
@@ -65,41 +67,38 @@ export let createFilename: Function = (type: string): string => {
 }
 
 export const comparePassword = (password, hash) =>
-  new Promise((resolve, reject) => {
-    bcrypt.compare(password, hash, (err, isMatch) => {
-      if (err) {
-        return reject(err);
-      }
-      return resolve(isMatch);
-    });
-  });
-
-  export const getDistanceFromLatLonInKm = (lat1,lon1,lat2,lon2) => {
-	let R = 6371; // Radius of the earth in km
-	let dLat = deg2rad(lat2-lat1);  // deg2rad below
-	let dLon = deg2rad(lon2-lon1); 
-	let a = 
-	  Math.sin(dLat/2) * Math.sin(dLat/2) +
-	  Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-	  Math.sin(dLon/2) * Math.sin(dLon/2)
-	  ; 
-	let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-	let d = R * c; // Distance in km
-	return d;
-  }
-  
-  const deg2rad = (deg) => {
-	return deg * (Math.PI/180)
-  }
-
-  export const getAll = async (db, sql) => await new Promise((resolve, reject) => {
-	db.all(sql, (err, rows) => {
-		if (err) {
-			return reject(err)
-		}
-		return resolve(rows)
+	new Promise((resolve, reject) => {
+		bcrypt.compare(password, hash, (err, isMatch) => {
+			if (err) {
+				return reject(err)
+			}
+			return resolve(isMatch)
+		})
 	})
-})
+
+export const getDistanceInKm = (lat1, lon1, lat2, lon2) => {
+	let dLat = deg2rad(lat2 - lat1)
+	let dLon = deg2rad(lon2 - lon1)
+	let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+		Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+		Math.sin(dLon / 2) * Math.sin(dLon / 2)
+
+	let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+
+	return EARTH_RADIUS * c
+}
+
+const deg2rad = (deg) => deg * (Math.PI / 180)
+
+export const getAll = async (db, sql) =>
+	await new Promise((resolve, reject) => {
+		db.all(sql, (err, rows) => {
+			if (err) {
+				return reject(err)
+			}
+			return resolve(rows)
+		})
+	})
 
 export const runSqlOnDb = (db, sql, params) =>
 	new Promise((resolve, reject) => {
@@ -111,12 +110,7 @@ export const runSqlOnDb = (db, sql, params) =>
 		})
 	})
 
-export const fileExist = (filename) => {
-	if(!fs.existsSync(path.join(__dirname,'..', '..', '..', 'storage', `${filename}`))) {
-		return false
-	}
-	return true
-}
+export const fileExist = (filename) => fs.existsSync(path.join(__dirname,'..', '..', '..', 'storage', `${filename}`))
 
 export const getFromDb = (db, sql, params) =>
 	new Promise((resolve, reject) => {
@@ -131,19 +125,20 @@ export const getFromDb = (db, sql, params) =>
 
 
 export const hashPassword = password =>
-  new Promise((resolve, reject) => {
-    bcrypt.genSalt(12, (err, salt) => {
-      if (err) {
-        return reject(err);
-      }
-      return bcrypt.hash(password, salt, (error, hash) => {
-        if (error) {
-          return reject(error);
-        }
-        return resolve(hash);
-      });
-    });
-  });
+	new Promise((resolve, reject) => {
+		bcrypt.genSalt(12, (err, salt) => {
+			if (err) {
+				return reject(err)
+			}
+
+			return bcrypt.hash(password, salt, (error, hash) => {
+				if (error) {
+					return reject(error)
+				}
+				return resolve(hash)
+			})
+		})
+	})
 
 export const capitalize = (s) => {
 	if (typeof s !== 'string') return ''
@@ -156,7 +151,6 @@ export const copyFile = (source, destination) =>
 			if (err) {
 				return reject(err)
 			}
-
 			return resolve()
-		});
+		})
 	})
