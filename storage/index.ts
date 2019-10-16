@@ -6,11 +6,14 @@ import {
 
 export class Storage {
 	database?: Database
+	type?: string
 
 	static async init(app: IApp, options: IStorageOptions) {
 		const storage = new Storage()
 
-		switch (options.type) {
+		storage.type = options.type
+
+		switch (storage.type) {
 			case 'mongo':
 				storage.database = await Mongo.init()
 				break;
@@ -22,13 +25,24 @@ export class Storage {
 		}
 
 		app.storage = storage
+
+		return storage
+	}
+
+	public close(): void {
+		if (!this.database) {
+			throw new Error('Can not close undefined database')
+		}
+
+		this.database._close()
 	}
 }
 
 abstract class Database {
 	public connection: any
 
-	abstract _connect()
+	public abstract _connect()
+	public abstract _close()
 }
 
 class Mongo extends Database {
@@ -45,7 +59,13 @@ class Mongo extends Database {
 
 		mongoose.set('useCreateIndex', true);
 
-		this.connection = await mongoose.connect(config.mongo.connection || '', { useNewUrlParser: true })
+		await mongoose.connect(config.mongo.connection || '', { useNewUrlParser: true })
+
+		this.connection = mongoose.connection
+	}
+
+	_close() {
+		this.connection.close()
 	}
 }
 
@@ -62,5 +82,9 @@ class MySQL extends Database {
 		const mysql = await import('mysql')
 
 		this.connection = mysql.createConnection(config.mysql)
+	}
+
+	_close() {
+		this.connection.end()
 	}
 }

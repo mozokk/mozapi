@@ -23,7 +23,12 @@ export class App implements IApp {
     options: IAppOptions
 
     constructor(options: IAppOptions) {
-		this.storage = { database: undefined }
+		this.storage = {
+			database: undefined,
+			type: undefined,
+			close: () => {}
+		}
+
         this.options = options
     }
 
@@ -42,7 +47,7 @@ export class App implements IApp {
 	}
 
     public start(): Object {
-        let handler = new Object()
+		let handler = new Object()
 
         if (config.runtype === 'express') {
             this.server = this.app.listen(config.port, this._onListening.bind(this))
@@ -53,7 +58,33 @@ export class App implements IApp {
         return handler
 	}
 
-	private _onListening() {
+	public async startAsync(): Promise<Object> {
+		return new Promise((resolve, reject) => {
+			let handler = new Object()
+
+			if (config.runtype === 'express') {
+				this.server = this.app.listen(config.port, () => {
+					logger.log(`Listening on :${config.port}`)
+					return resolve()
+				})
+			} else if (config.runtype === 'serverless') {
+				handler = require('serverless-http')(this.app)
+				return resolve(handler)
+			} else {
+				return reject('Invalid runtype')
+			}
+		})
+	}
+
+	public close(): void {
+		this.storage.close()
+
+		if (this.server) {
+			this.server.close()
+		}
+	}
+
+	private _onListening(): void {
 		logger.log(`Listening on :${config.port}`)
 	}
 }

@@ -36,13 +36,14 @@ export const config: IConfig = {
         database: process.env.DB_DATABASE
 	},
 	logger: {
-		json: process.env.LOGGER_JSON == 'true' || false,
-		stringify: process.env.LOGGER_STRINGIFY == 'true' || false,
+		json: process.env.LOGGER_JSON == 'true',
+		stringify: process.env.LOGGER_STRINGIFY == 'true',
 		colorize: process.env.LOGGER_COLORIZE == 'true' || true,
 		prettyPrint: process.env.LOGGER_PRETTIFY == 'true' || true,
-		humanReadableUnhandledException: process.env.LOGGER_READABLE_EXCEPTION == 'true' || false,
+		humanReadableUnhandledException: process.env.LOGGER_READABLE_EXCEPTION == 'true',
 		timestamp: process.env.LOGGER_TIMESTAMP == 'true' || true,
-		level: parseInt(process.env.LOGGER_LEVEL || '1')
+		level: parseInt(process.env.LOGGER_LEVEL || '1'),
+		httpMeta: process.env.LOGGER_HTTP_META == 'true'
 	},
 	mail: {
 		host: 'smtp.gmail.com',

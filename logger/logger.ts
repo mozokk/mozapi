@@ -45,7 +45,7 @@ export const logger: MLogger = MLogger.init()
 export const getExpressLogger = () => {
     return eWinston.logger({
         transports: MLogger.getTransports(),
-        meta: true,
+        meta: config.logger.httpMeta,
         msg: "HTTP {{req.method}} {{req.url}}",
         expressFormat: true,
         colorize: config.logger.colorize
@@ -57,3 +57,5 @@ export const getExpressErrorLogger = () => {
         transports: MLogger.getTransports()
     })
 }
+
+export default logger

@@ -64,6 +64,7 @@ export interface ILoggerConfig {
 	humanReadableUnhandledException: boolean | undefined,
 	timestamp: boolean | undefined
 	level: number | undefined
+	httpMeta: boolean | undefined
 }
 
 export interface IMailConfig {
