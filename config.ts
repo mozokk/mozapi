@@ -27,13 +27,13 @@ export const config: IConfig = {
         ClientId: process.env.AWS_COGNITO_CLIENTID || ''
 	},
 	mongo: {
-		connection: process.env.MONGO_CONNECTION || ''
+		connection: process.env.NODE_ENV === 'test' ? (process.env.MONGO_CONNECTION_TEST || '') : (process.env.MONGO_CONNECTION || '')
 	},
     mysql: {
         host: process.env.DB_HOST,
         user: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
-        database: process.env.DB_DATABASE
+        database: process.env.NODE_ENV === 'test' ? process.env.DB_DATABASE_TEST : process.env.DB_DATABASE
 	},
 	logger: {
 		json: process.env.LOGGER_JSON == 'true',
