@@ -1,3 +1,6 @@
+import express from 'express'
+import fs from 'fs'
+import path from 'path'
 import csrf from 'csurf'
 // import swaggerUi from 'swagger-ui-express';
 // import specs from './specs';
@@ -12,6 +15,11 @@ export class Router {
 		const appMiddlewares: Array<RequestHandler> = app.options.middlewares || new Array()
 		const csrfProtection = csrf({ cookie: true })
 
+		if (!fs.existsSync(path.join(__dirname,'..', '..', '..', 'storage'))) {
+			fs.mkdirSync(path.join(__dirname, '..', '..', '..', 'storage'))
+		}
+
+		app.app.use('/storage', express.static(path.join(__dirname, '..', '..', '..', 'storage')))
 		// app.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 		app.app.get(`/${options.base}/csrf`, csrfProtection, (req: any, res) => {

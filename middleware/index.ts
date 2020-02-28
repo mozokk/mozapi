@@ -6,9 +6,6 @@ import session from 'express-session'
 import passport from 'passport'
 import morgan from 'morgan'
 import helmet from 'helmet'
-import express from 'express'
-import path from 'path'
-import fs from 'fs'
 
 import { RequestHandler } from 'express'
 
@@ -26,13 +23,7 @@ export class Middleware {
 	public static init(app: IApp, storage: Storage) {
 		app.app.use(Middleware.getOrigin)
 		app.app.use(Middleware.getCore(storage))
-
-		if (!fs.existsSync(path.join(__dirname, '..', '..', 'storage'))) {
-			fs.mkdirSync(path.join(__dirname, '..', '..', 'storage'))
-		}
-
-		app.app.use('/storage', express.static(path.join(__dirname, '..', '..', 'storage')))
-
+		
 		if (config.stage == 'development') {
 			app.app.use(morgan('dev'))
 		}
