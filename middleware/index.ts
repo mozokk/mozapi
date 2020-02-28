@@ -55,19 +55,22 @@ export class Middleware {
 			bodyParser.json({ limit: '20mb' }),
 			bodyParser.urlencoded({ extended: true }),
 			cookieParser(process.env.SECRET),
-			session({
-				secret: process.env.SECRET,
-				saveUninitialized: false,
-				resave: false,
-				// store: new MongoStore({ mongooseConnection: storage.database ? storage.database.connection : null }),
-				cookie: {
-					httpOnly: true,
-					secure: config.stage == 'production'
-				}
-			}),
 			passport.initialize(),
 			passport.session(),
 			compression()
 		]
+	}
+
+	public static getSession(): RequestHandler {
+		return session({
+			secret: process.env.SECRET,
+			saveUninitialized: false,
+			resave: false,
+			// store: new MongoStore({ mongooseConnection: storage.database ? storage.database.connection : null }),
+			cookie: {
+				httpOnly: true,
+				secure: config.stage == 'production'
+			}
+		})
 	}
 }
