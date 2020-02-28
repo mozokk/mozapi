@@ -26,6 +26,7 @@ export class Middleware {
 	public static init(app: IApp, storage: Storage) {
 		app.app.use(Middleware.getOrigin)
 		app.app.use(Middleware.getCore(storage))
+		app.app.use(Middleware.getSession())
 
 		if (!fs.existsSync(path.join(__dirname, '..', '..', 'storage'))) {
 			fs.mkdirSync(path.join(__dirname, '..', '..', 'storage'))
@@ -64,19 +65,22 @@ export class Middleware {
 			bodyParser.json({ limit: '20mb' }),
 			bodyParser.urlencoded({ extended: true }),
 			cookieParser(process.env.SECRET),
-			session({
-				secret: process.env.SECRET,
-				saveUninitialized: false,
-				resave: false,
-				// store: new MongoStore({ mongooseConnection: storage.database ? storage.database.connection : null }),
-				cookie: {
-					httpOnly: true,
-					secure: config.stage == 'production'
-				}
-			}),
 			passport.initialize(),
 			passport.session(),
 			compression()
 		]
+	}
+
+	public static getSession(): RequestHandler {
+		return session({
+			secret: process.env.SECRET,
+			saveUninitialized: false,
+			resave: false,
+			// store: new MongoStore({ mongooseConnection: storage.database ? storage.database.connection : null }),
+			cookie: {
+				httpOnly: true,
+				secure: config.stage == 'production'
+			}
+		})
 	}
 }
