@@ -1,4 +1,3 @@
-import cors from 'cors'
 import bodyParser from 'body-parser'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
@@ -23,7 +22,7 @@ export class Middleware {
 	public static init(app: IApp, storage: Storage) {
 		app.app.use(Middleware.getOrigin)
 		app.app.use(Middleware.getCore(storage))
-		
+
 		if (config.stage == 'development') {
 			app.app.use(morgan('dev'))
 		}
@@ -51,7 +50,6 @@ export class Middleware {
 			helmet(),
 			getExpressLogger(),
 			getExpressErrorLogger(),
-			cors(),
 			bodyParser.json({ limit: '20mb' }),
 			bodyParser.urlencoded({ extended: true }),
 			cookieParser(process.env.SECRET),
