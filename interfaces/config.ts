@@ -1,73 +1,73 @@
-export interface IConfig {
+export interface Config {
 	name: string
 	version: string
-    port: string | number
+	port: string | number
 	stage: string
 	runtype: string
-    aws: IAWSConfig
-    cognito: ICognitoConfig
-	cognitoPool: ICognitoUserPoolConfig
-	mongo: IMongoConfig
-	mysql: IMySQLConfig
-	logger: ILoggerConfig
-	mail: IMailConfig
+	aws: AWSConfig
+	cognito: CognitoConfig
+	cognitoPool: CognitoUserPoolConfig
+	mongo: MongoConfig
+	mysql: MySQLConfig
+	logger: LoggerConfig
+	mail: MailConfig
 	isCSRFProtected: boolean
 }
 
-export interface IPaymentConfig {
-    braintree: IBrainTreeConfig
+export interface PaymentConfig {
+	braintree: BrainTreeConfig
 }
 
-export interface IAWSConfig {
-    region: string | undefined
-    apiVersion: string
-    params: any
-    topic: string | undefined
+export interface AWSConfig {
+	region: string | undefined
+	apiVersion: string
+	params: any
+	topic: string | undefined
 }
 
-export interface ICognitoConfig {
-    region: string | undefined
-    cognitoUserPoolId: string | undefined
-    tokenUse: string | undefined
-    tokenExpiration: number
+export interface CognitoConfig {
+	region: string | undefined
+	cognitoUserPoolId: string | undefined
+	tokenUse: string | undefined
+	tokenExpiration: number
 }
 
-export interface ICognitoUserPoolConfig {
-    UserPoolId: string
-    ClientId: string
+export interface CognitoUserPoolConfig {
+	UserPoolId: string
+	ClientId: string
 }
 
-export interface IMongoConfig {
+export interface MongoConfig {
 	connection: string | undefined
 }
 
-export interface IMySQLConfig {
-    host: string | undefined
-    user: string | undefined
-    password: string | undefined
-    database: string | undefined
+export interface MySQLConfig {
+	host: string | undefined
+	user: string | undefined
+	password: string | undefined
+	database: string | undefined
 }
 
-export interface IBrainTreeConfig {
-    environment: string | undefined
-    merchantId: string | undefined
-    planId: string | undefined
-    publicKey: string | undefined
-    privateKey: string | undefined
+export interface BrainTreeConfig {
+	environment: string | undefined
+	merchantId: string | undefined
+	planId: string | undefined
+	publicKey: string | undefined
+	privateKey: string | undefined
 }
 
-export interface ILoggerConfig {
-	json: boolean | undefined,
-	stringify: boolean | undefined,
-	colorize: boolean | undefined,
-	prettyPrint: boolean | undefined,
-	humanReadableUnhandledException: boolean | undefined,
+export interface LoggerConfig {
+	json: boolean | undefined
+	stringify: boolean | undefined
+	colorize: boolean | undefined
+	prettyPrint: boolean | undefined
+	humanReadableUnhandledException: boolean | undefined
 	timestamp: boolean | undefined
 	level: number | undefined
 	httpMeta: boolean | undefined
 }
 
-export interface IMailConfig {
+export interface MailConfig {
 	host: string
 	port: number
 	username: string

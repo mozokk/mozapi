@@ -1,36 +1,36 @@
 export class UnauthorizedError extends Error {
-    message = 'Unauthorized'
+	message = 'Unauthorized'
 
-    constructor(message: string) {
+	constructor(message: string) {
 		super(message)
 		this.message = message
-    }
+	}
 }
 
 export class ValidationError extends Error {
 	errors
 
 	constructor(errors) {
-		super(errors.toString());
+		super(errors.toString())
 
-		this.errors = errors;
+		this.errors = errors
 	}
 }
 
 export class NotFoundError extends Error {
 	message = 'Not Found'
 
-    constructor(message: string) {
+	constructor(message: string) {
 		super(message)
 		this.message = message
-    }
+	}
 }
 
 export class MongooseError extends Error {
 	message = 'Duplicate entry'
 
-    constructor(message: string) {
+	constructor(message: string) {
 		super(message)
 		this.message = message
-    }
+	}
 }

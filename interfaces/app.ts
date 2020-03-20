@@ -2,34 +2,34 @@ import { Server } from 'http'
 import { RequestHandler, Express, Router as ExpressRouter } from 'express'
 import { Storage } from '../exports'
 
-export interface IStorageOptions {
+export interface StorageOptions {
 	type: string
 }
 
-export interface IRouterOptions {
-	routes: Array<IRouteOptions>
-    base: string
+export interface RouterOptions {
+	routes: Array<RouteOptions>
+	base: string
 }
 
-export interface IRouteOptions {
+export interface RouteOptions {
 	route: string
 	router: ExpressRouter
 	middlewares?: Array<RequestHandler>
 }
 
-export interface IAppOptions {
-	storage: IStorageOptions
-    router: IRouterOptions
-    needsAuth?: boolean
-    middlewares?: Array<RequestHandler>
+export interface AppOptions {
+	storage: StorageOptions
+	router: RouterOptions
+	needsAuth?: boolean
+	middlewares?: Array<RequestHandler>
 }
 
-export interface IApp {
-    app: Express
+export interface App {
+	app: Express
 	name: string
 	storage: Storage
-    options: IAppOptions
-    server: Server
-    start?: Function
-    address?: any
+	options: AppOptions
+	server: Server
+	start?: Function
+	address?: any
 }

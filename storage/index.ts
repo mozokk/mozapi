@@ -1,42 +1,4 @@
-import {
-	IApp,
-	IStorageOptions,
-	config
-} from '../exports'
-
-export class Storage {
-	database?: Database
-	type?: string
-
-	static async init(app: IApp, options: IStorageOptions) {
-		const storage = new Storage()
-
-		storage.type = options.type
-
-		switch (storage.type) {
-			case 'mongo':
-				storage.database = await Mongo.init()
-				break;
-			case 'mysql':
-				storage.database = await MySQL.init()
-				break;
-			default:
-				throw new Error('Invalid Database Type')
-		}
-
-		app.storage = storage
-
-		return storage
-	}
-
-	public close(): void {
-		if (!this.database) {
-			throw new Error('Can not close undefined database')
-		}
-
-		this.database._close()
-	}
-}
+import { App, StorageOptions, config } from '../exports'
 
 abstract class Database {
 	public connection: any
@@ -57,7 +19,7 @@ class Mongo extends Database {
 	async _connect() {
 		const mongoose = (await import('mongoose')).default
 
-		mongoose.set('useCreateIndex', true);
+		mongoose.set('useCreateIndex', true)
 
 		await mongoose.connect(config.mongo.connection || '', { useNewUrlParser: true })
 
@@ -86,5 +48,39 @@ class MySQL extends Database {
 
 	_close() {
 		this.connection.end()
+	}
+}
+
+export class Storage {
+	database?: Database
+	type?: string
+
+	static async init(app: App, options: StorageOptions) {
+		const storage = new Storage()
+
+		storage.type = options.type
+
+		switch (storage.type) {
+			case 'mongo':
+				storage.database = await Mongo.init()
+				break
+			case 'mysql':
+				storage.database = await MySQL.init()
+				break
+			default:
+				throw new Error('Invalid Database Type')
+		}
+
+		app.storage = storage
+
+		return storage
+	}
+
+	public close(): void {
+		if (!this.database) {
+			throw new Error('Can not close undefined database')
+		}
+
+		this.database._close()
 	}
 }

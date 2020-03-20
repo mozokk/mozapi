@@ -1,10 +1,5 @@
-import { Response } from './response'
-import {
-	UnauthorizedError,
-	ValidationError,
-	MongooseError,
-	NotFoundError
-} from '../interfaces'
+import { Response } from '../utils/response'
+import { UnauthorizedError, ValidationError, MongooseError, NotFoundError } from '../interfaces'
 import httpCodes from '../constants/http_codes'
 
 export class Controller {

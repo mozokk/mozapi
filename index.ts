@@ -1,10 +1,7 @@
-import {
-	App,
-	IAppOptions
-} from './exports'
+import { Application, AppOptions } from './exports'
 
 export * from './exports'
 
-export default (options: IAppOptions) => {
-	return App.init(options)
+export default (options: AppOptions) => {
+	return Application.init(options)
 }

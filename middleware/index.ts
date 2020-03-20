@@ -8,18 +8,12 @@ import helmet from 'helmet'
 
 import { RequestHandler } from 'express'
 
-import {
-	IApp,
-	getExpressLogger,
-	getExpressErrorLogger,
-	config,
-	Storage
-} from '../exports'
+import { App, getExpressLogger, getExpressErrorLogger, config, Storage } from '../exports'
 
 // const MongoStore = require('connect-mongo')(session)
 
 export class Middleware {
-	public static init(app: IApp, storage: Storage) {
+	public static init(app: App, storage: Storage) {
 		app.app.use(Middleware.getOrigin)
 		app.app.use(Middleware.getCore(storage))
 
@@ -36,9 +30,9 @@ export class Middleware {
 		res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, PUT, POST, DELETE')
 		res.setHeader('Access-Control-Allow-Credentials', 'true')
 
-		let policy: string = "default-src 'self' " + req.headers.origin
-        res.setHeader('X-Content-Security-Policy', policy)
-        res.setHeader('X-WebKit-CSP', policy)
+		const policy: string = "default-src 'self' " + req.headers.origin
+		res.setHeader('X-Content-Security-Policy', policy)
+		res.setHeader('X-WebKit-CSP', policy)
 
 		res.setHeader('X-Frame-Options', 'sameorigin')
 
@@ -55,7 +49,7 @@ export class Middleware {
 			cookieParser(process.env.SECRET),
 			passport.initialize(),
 			passport.session(),
-			compression()
+			compression(),
 		]
 	}
 
@@ -67,8 +61,8 @@ export class Middleware {
 			// store: new MongoStore({ mongooseConnection: storage.database ? storage.database.connection : null }),
 			cookie: {
 				httpOnly: true,
-				secure: config.stage == 'production'
-			}
+				secure: config.stage == 'production',
+			},
 		})
 	}
 }

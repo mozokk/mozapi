@@ -1,4 +1,3 @@
-
 export class Response {
 	res: any
 
@@ -21,13 +20,16 @@ export class Response {
 		message = message || 'Something unexpected happened'
 		statusCode = statusCode || 500
 
-		this.res.status(statusCode).send(message)
+		this.res.status(statusCode).end(message)
 	}
 
 	failureWithJSON(data, statusCode) {
 		data = data || {}
 		statusCode = statusCode || 500
 
-		this.res.status(statusCode).json(data);
+		this.res
+			.status(statusCode)
+			.json(data)
+			.end()
 	}
 }

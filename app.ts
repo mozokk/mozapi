@@ -1,41 +1,33 @@
 import express from 'express'
 import { Server } from 'http'
 
-import {
-	Express
-} from 'express'
+import { Express } from 'express'
 
-import {
-    IApp,
-	IAppOptions,
-	Middleware,
-	Storage,
-	Router,
-    config,
-	logger,
-} from './exports'
+import { App, AppOptions, Middleware, Storage, Router, config, logger } from './exports'
 
-export class App implements IApp {
-    app: Express = express()
+export class Application implements App {
+	app: Express = express()
 	server: Server = new Server()
 	name: string = config.name
 	storage: Storage
-    options: IAppOptions
+	options: AppOptions
 
-    constructor(options: IAppOptions) {
+	constructor(options: AppOptions) {
 		this.storage = {
 			database: undefined,
 			type: undefined,
-			close: () => {}
+			close: () => {
+				return
+			},
 		}
 
-        this.options = options
-    }
+		this.options = options
+	}
 
-    public static init(options: IAppOptions): App {
+	public static init(options: AppOptions): App {
 		logger.log(`Crafting ${this.name}...`)
 
-		const app: App = new App(options)
+		const app: App = new Application(options)
 
 		Storage.init(app, options.storage)
 		Middleware.init(app, app.storage)
@@ -43,33 +35,24 @@ export class App implements IApp {
 
 		logger.log(`Enjoy!`)
 
-        return app
+		return app
 	}
 
-    public start(): Object {
-		let handler = new Object()
-
-        if (config.runtype === 'express') {
-            this.server = this.app.listen(config.port, this._onListening.bind(this))
-        } else if (config.runtype === 'serverless') {
-            handler = require('serverless-http')(this.app)
-        }
-
-        return handler
+	public start() {
+		if (config.runtype === 'express') {
+			this.server = this.app.listen(config.port, this._onListening.bind(this))
+		} else {
+			throw new Error('Unsupported runtype. Only "express" is allowed.')
+		}
 	}
 
-	public async startAsync(): Promise<Object> {
+	public async startAsync(): Promise<string> {
 		return new Promise((resolve, reject) => {
-			let handler = new Object()
-
 			if (config.runtype === 'express') {
 				this.server = this.app.listen(config.port, () => {
 					logger.log(`Listening on :${config.port}`)
-					return resolve()
+					return resolve('Success')
 				})
-			} else if (config.runtype === 'serverless') {
-				handler = require('serverless-http')(this.app)
-				return resolve(handler)
 			} else {
 				return reject('Invalid runtype')
 			}

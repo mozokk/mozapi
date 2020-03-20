@@ -6,16 +6,16 @@ import csrf from 'csurf'
 // import specs from './specs';
 
 import { RequestHandler } from 'express'
-import { IApp, IRouterOptions, IRouteOptions } from '../exports'
+import { App, RouterOptions, RouteOptions } from '../exports'
 import { Response } from '../utils'
-import { config } from '../config';
+import { config } from '../config'
 
 export class Router {
-	static init(app: IApp, options: IRouterOptions) {
-		const appMiddlewares: Array<RequestHandler> = app.options.middlewares || new Array()
+	static init(app: App, options: RouterOptions) {
+		const appMiddlewares: Array<RequestHandler> = app.options.middlewares || []
 		const csrfProtection = csrf({ cookie: true })
 
-		if (!fs.existsSync(path.join(__dirname,'..', '..', '..', 'storage'))) {
+		if (!fs.existsSync(path.join(__dirname, '..', '..', '..', 'storage'))) {
 			fs.mkdirSync(path.join(__dirname, '..', '..', '..', 'storage'))
 		}
 
@@ -27,11 +27,11 @@ export class Router {
 			return response.success(req.csrfToken())
 		})
 
-		for(var key in options.routes) {
-			const route: IRouteOptions = options.routes[key]
+		for (const key in options.routes) {
+			const route: RouteOptions = options.routes[key]
 
 			if (route) {
-				const middlewares = appMiddlewares.concat(route.middlewares || new Array())
+				const middlewares = appMiddlewares.concat(route.middlewares || [])
 
 				if (config.isCSRFProtected) {
 					middlewares.push(csrfProtection)

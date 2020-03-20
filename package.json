@@ -1,38 +1,62 @@
 {
-  "name": "mozapi",
-  "version": "1.0.0",
-  "description": "Simple and efficient framework for creating quick and stable node servers",
-  "main": "build/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mozokk/mozapi.git"
-  },
-  "author": "Robert Markovski",
-  "license": "ISC",
-  "homepage": "https://bitbucket.org/mozokde/mozapi#readme",
-  "dependencies": {
-    "@types/bcryptjs": "^2.4.2",
-    "bcryptjs": "^2.4.3",
-    "compression": "^1.7.4",
-    "cookie-parser": "^1.4.4",
-    "csurf": "^1.10.0",
-    "dotenv": "^8.0.0",
-    "express": "^4.17.1",
-    "express-session": "^1.16.2",
-    "express-winston": "^3.2.1",
-    "helmet": "^3.18.0",
-    "mongoose": "^5.6.4",
-    "morgan": "^1.9.1",
-    "multer": "^1.4.1",
-    "mysql": "^2.17.1",
-    "nodemailer": "^6.2.1",
-    "passport": "^0.4.0",
-    "promise-mysql": "^4.0.4",
-    "swagger-jsdoc": "^3.3.0",
-    "swagger-ui-express": "^4.0.7",
-    "winston": "^3.2.1"
-  }
+	"name": "mozapi",
+	"version": "1.0.0",
+	"description": "Simple and efficient framework for creating quick and stable node servers",
+	"main": "build/index.js",
+	"scripts": {
+		"lint": "tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mozokk/mozapi.git"
+	},
+	"author": "Robert Markovski",
+	"license": "ISC",
+	"homepage": "https://bitbucket.org/mozokde/mozapi#readme",
+	"husky": {
+		"hooks": {
+			"pre-commit": "tsc --noEmit && lint-staged"
+		}
+	},
+	"lint-staged": {
+		"*.{js,ts,tsx}": [
+			"eslint --fix",
+			"git add"
+		]
+	},
+	"dependencies": {
+		"@typescript-eslint/eslint-plugin": "^2.24.0",
+		"@typescript-eslint/parser": "^2.24.0",
+		"bcryptjs": "^2.4.3",
+		"compression": "^1.7.4",
+		"cookie-parser": "^1.4.4",
+		"csurf": "^1.10.0",
+		"dotenv": "^8.0.0",
+		"eslint": "^6.8.0",
+		"eslint-config-prettier": "^6.10.0",
+		"eslint-plugin-prettier": "^3.1.2",
+		"express": "^4.17.1",
+		"express-session": "^1.16.2",
+		"express-validator": "^6.1.1",
+		"express-winston": "^3.2.1",
+		"helmet": "^3.18.0",
+		"mongoose": "^5.6.4",
+		"morgan": "^1.9.1",
+		"multer": "^1.4.1",
+		"mysql": "^2.17.1",
+		"nodemailer": "^6.2.1",
+		"passport": "^0.4.0",
+		"prettier": "^1.19.1",
+		"promise-mysql": "^4.0.4",
+		"swagger-jsdoc": "^3.3.0",
+		"swagger-ui-express": "^4.0.7",
+		"uuid": "^7.0.2",
+		"winston": "^3.2.1"
+	},
+	"devDependencies": {
+		"@types/bcryptjs": "^2.4.2",
+		"@types/node": "^13.9.2",
+		"typescript": "^3.8.3"
+	}
 }
