@@ -1,5 +1,4 @@
 import { ServerResponse, IncomingMessage } from 'http'
-import { Connection } from 'promise-mysql'
 
 export interface ResponseInterface extends ServerResponse {
 	render: Function
@@ -17,18 +16,6 @@ export interface RequestInterface extends IncomingMessage {
 	query: object
 	file: object
 	csrfToken: Function
-}
-
-export interface ResponseOptions {
-	statusCode?: number
-	contentType?: string
-	customData?: any
-}
-
-export interface AuthHandler {
-	data?: any
-	options?: any
-	handler(res: Response, connection?: Connection): Promise<any>
 }
 
 export * from 'http'

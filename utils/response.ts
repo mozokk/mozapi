@@ -1,15 +1,17 @@
-export class Response {
-	res: any
+import { ResponseInterface } from '../interfaces'
 
-	constructor(res: any) {
+export class Response {
+	res: ResponseInterface
+
+	constructor(res: ResponseInterface) {
 		this.res = res
 	}
 
-	static init(res: any) {
+	static init(res: ResponseInterface) {
 		return new Response(res)
 	}
 
-	public success(data?: any, statusCode?: number) {
+	public success(data?: object, statusCode?: number) {
 		data = data || {}
 		statusCode = statusCode || 200
 
