@@ -2,13 +2,12 @@ import express from 'express'
 import fs from 'fs'
 import path from 'path'
 import csrf from 'csurf'
-// import swaggerUi from 'swagger-ui-express';
-// import specs from './specs';
 
 import { RequestHandler } from 'express'
 import { App, RouterOptions, RouteOptions } from '../exports'
 import { Response } from '../utils'
 import { config } from '../config'
+import { RequestInterface, ResponseInterface } from '../interfaces'
 
 export class Router {
 	static init(app: App, options: RouterOptions) {
@@ -20,12 +19,13 @@ export class Router {
 		}
 
 		app.app.use('/storage', express.static(path.join(__dirname, '..', '..', '..', 'storage')))
-		// app.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-		app.app.get(`/${options.base}/csrf`, csrfProtection, (req: any, res) => {
-			const response = Response.init(res)
-			return response.success(req.csrfToken())
-		})
+		if (config.isCSRFProtected) {
+			app.app.get(`/${options.base}/csrf`, csrfProtection, (req: RequestInterface, res: ResponseInterface) => {
+				const response = Response.init(res)
+				return response.success(req.csrfToken())
+			})
+		}
 
 		for (const key in options.routes) {
 			const route: RouteOptions = options.routes[key]

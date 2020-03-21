@@ -4,14 +4,18 @@ import winston = require('winston')
 import { config } from '../exports'
 
 class MLogger {
-	_logger: any
+	_logger?: winston.Logger
 
-	public log(message: any) {
-		this._logger.info(message)
+	public log(message: string) {
+		if (this._logger) {
+			this._logger.info(message)
+		}
 	}
 
-	public error(message: any) {
-		this._logger.error(message)
+	public error(message: string) {
+		if (this._logger) {
+			this._logger.error(message)
+		}
 	}
 
 	public static init(): MLogger {

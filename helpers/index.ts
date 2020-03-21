@@ -14,7 +14,16 @@ interface MailOption {
 	html: string
 }
 
-const getTestAccount = () => {
+interface MailAccount {
+	user: string
+	pass: string
+}
+
+interface MailTransporter {
+	sendMail: Function
+}
+
+const getTestAccount = (): Promise<MailAccount> => {
 	return new Promise((resolve, reject) => {
 		nodemailer.createTestAccount((err, account) => {
 			if (err) return reject(err)
@@ -23,8 +32,8 @@ const getTestAccount = () => {
 	})
 }
 
-export const getMailTransporter = async () => {
-	const account: any = await getTestAccount()
+export const getMailTransporter = async (): Promise<MailTransporter> => {
+	const account: MailAccount = await getTestAccount()
 
 	return nodemailer.createTransport({
 		host: 'smtp.ethereal.email' || config.mail.host,
@@ -37,10 +46,8 @@ export const getMailTransporter = async () => {
 	})
 }
 
-export const sendMail = async (options: MailOption, transporter?: any) => {
-	if (!transporter) {
-		transporter = await getMailTransporter()
-	}
+export const sendMail = async (options: MailOption) => {
+	const transporter: MailTransporter = await getMailTransporter()
 
 	await new Promise((resolve, reject) => {
 		transporter.sendMail(options, (error, info) => {

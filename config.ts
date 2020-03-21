@@ -12,7 +12,7 @@ export const config: Config = {
 		region: process.env.AWS_REGION || process.env.AWS_LOCAL_REGION,
 		apiVersion: process.env.AWS_API_VERSION || '',
 		params: {
-			Bucket: process.env.AWS_S3_BUCKET_NAME,
+			Bucket: process.env.AWS_S3_BUCKET_NAME || 'AWSBUCKETNAME',
 		},
 		topic: process.env.SNS_CONTRACT_TOPIC,
 	},

@@ -18,10 +18,14 @@ export interface PaymentConfig {
 	braintree: BrainTreeConfig
 }
 
+export interface AWSBucketConfig {
+	Bucket: string
+}
+
 export interface AWSConfig {
 	region: string | undefined
 	apiVersion: string
-	params: any
+	params: AWSBucketConfig
 	topic: string | undefined
 }
 

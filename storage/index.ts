@@ -1,7 +1,9 @@
 import { App, StorageOptions, config } from '../exports'
+import { Connection } from 'mysql'
+import { Connection as MongooseConnection } from 'mongoose'
 
 abstract class Database {
-	public connection: any
+	public connection: Connection | MongooseConnection
 
 	public abstract _connect()
 	public abstract _close()

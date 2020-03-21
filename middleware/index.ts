@@ -5,17 +5,19 @@ import session from 'express-session'
 import passport from 'passport'
 import morgan from 'morgan'
 import helmet from 'helmet'
+import mongoose from 'mongoose'
+import connectMongo from 'connect-mongo'
 
 import { RequestHandler } from 'express'
 
-import { App, getExpressLogger, getExpressErrorLogger, config, Storage } from '../exports'
+import { App, getExpressLogger, getExpressErrorLogger, config } from '../exports'
 
-// const MongoStore = require('connect-mongo')(session)
+const MongoStore = connectMongo(session)
 
 export class Middleware {
-	public static init(app: App, storage: Storage) {
+	public static init(app: App) {
 		app.app.use(Middleware.getOrigin)
-		app.app.use(Middleware.getCore(storage))
+		app.app.use(Middleware.getCore())
 
 		if (config.stage == 'development') {
 			app.app.use(morgan('dev'))
@@ -39,7 +41,7 @@ export class Middleware {
 		return next()
 	}
 
-	public static getCore(_storage: Storage): Array<RequestHandler> {
+	public static getCore(): Array<RequestHandler> {
 		return [
 			helmet(),
 			getExpressLogger(),
@@ -56,12 +58,15 @@ export class Middleware {
 	public static getSession(): RequestHandler {
 		return session({
 			secret: process.env.SECRET,
+			store: new MongoStore({
+				mongooseConnection: mongoose.connection,
+			}),
 			saveUninitialized: false,
 			resave: false,
-			// store: new MongoStore({ mongooseConnection: storage.database ? storage.database.connection : null }),
 			cookie: {
+				secure: process.env.NODE_ENV === 'production',
+				maxAge: null,
 				httpOnly: true,
-				secure: config.stage == 'production',
 			},
 		})
 	}

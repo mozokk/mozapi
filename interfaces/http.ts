@@ -1,21 +1,22 @@
 import { ServerResponse, IncomingMessage } from 'http'
 import { Connection } from 'promise-mysql'
 
-export interface Response extends ServerResponse {
-	render?: any
-	status?: any
-	hal?: any
-	locals?: any
-	json?: any
-	send?: any
+export interface ResponseInterface extends ServerResponse {
+	render: Function
+	status: Function
+	hal: Function
+	locals: Function
+	json: Function
+	send: Function
 }
 
-export interface Request extends IncomingMessage {
+export interface RequestInterface extends IncomingMessage {
 	baseUrl?: string
-	params?: any
-	body?: any
-	query?: any
-	file?: any
+	params: object
+	body: object
+	query: object
+	file: object
+	csrfToken: Function
 }
 
 export interface ResponseOptions {

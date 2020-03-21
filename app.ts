@@ -30,7 +30,7 @@ export class Application implements App {
 		const app: App = new Application(options)
 
 		Storage.init(app, options.storage)
-		Middleware.init(app, app.storage)
+		Middleware.init(app)
 		Router.init(app, options.router)
 
 		logger.log(`Enjoy!`)

@@ -31,5 +31,4 @@ export interface App {
 	options: AppOptions
 	server: Server
 	start?: Function
-	address?: any
 }
