@@ -5,14 +5,14 @@ import session from 'express-session'
 import passport from 'passport'
 import morgan from 'morgan'
 import helmet from 'helmet'
-import mongoose from 'mongoose'
-import connectMongo from 'connect-mongo'
+// import mongoose from 'mongoose'
+// import connectMongo from 'connect-mongo'
 
 import { RequestHandler } from 'express'
 
 import { App, getExpressLogger, getExpressErrorLogger, config } from '../exports'
 
-const MongoStore = connectMongo(session)
+// const MongoStore = connectMongo(session)
 
 export class Middleware {
 	public static init(app: App) {
@@ -58,9 +58,9 @@ export class Middleware {
 	public static getSession(): RequestHandler {
 		return session({
 			secret: process.env.SECRET,
-			store: new MongoStore({
-				mongooseConnection: mongoose.connection,
-			}),
+			// store: new MongoStore({
+			// 	mongooseConnection: mongoose.connection,
+			// }),
 			saveUninitialized: false,
 			resave: false,
 			cookie: {

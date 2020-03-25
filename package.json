@@ -3,8 +3,10 @@
 	"version": "1.0.0",
 	"description": "Simple and efficient framework for creating quick and stable node servers",
 	"main": "build/index.js",
+	"type": "module",
 	"scripts": {
 		"lint": "tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+		"generate:domain": "npm run lint && node scripts/generate_domain.js testDomain --experimental-modules",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {

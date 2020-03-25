@@ -4,6 +4,7 @@ export interface Config {
 	port: string | number
 	stage: string
 	runtype: string
+	domainPath: string
 	aws: AWSConfig
 	cognito: CognitoConfig
 	cognitoPool: CognitoUserPoolConfig

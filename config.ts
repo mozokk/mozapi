@@ -1,3 +1,5 @@
+import path from 'path'
+
 import { Config } from './exports'
 
 require('dotenv').config()
@@ -8,6 +10,7 @@ export const config: Config = {
 	port: process.env.PORT || 3000,
 	stage: process.env.STAGE || 'development',
 	runtype: process.env.RUNTYPE || 'express',
+	domainPath: process.env.DOMAIN_PATH || path.join(__dirname, '..', 'domains'),
 	aws: {
 		region: process.env.AWS_REGION || process.env.AWS_LOCAL_REGION,
 		apiVersion: process.env.AWS_API_VERSION || '',
